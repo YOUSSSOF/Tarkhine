@@ -1,0 +1,20 @@
+import 'package:flutter/material.dart';
+import 'package:tarkhine/common/common.dart';
+
+class YxLoader extends StatelessWidget {
+  const YxLoader({
+    Key? key,
+    this.size,
+  }) : super(key: key);
+  final double? size;
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: size,
+      width: size,
+      child: const CircularProgressIndicator(
+        strokeWidth: 1,
+      ),
+    ).center;
+  }
+}

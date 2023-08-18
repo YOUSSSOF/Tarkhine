@@ -4,10 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-fastapi = "==0.68.0"
-uvicorn = "==0.12.2"
-python-dotenv = "*"
-sqlalchemy = "*"
+django = "*"
+djangorestframework = "*"
 
 [dev-packages]
 

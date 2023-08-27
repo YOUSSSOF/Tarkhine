@@ -20,25 +20,32 @@ class Food(models.Model):
     comments = models.PositiveIntegerField()
     score = models.PositiveSmallIntegerField()
     thumbnail = models.ImageField(upload_to='pics')
-    covers = ''
     discount = models.DecimalField(decimal_places=2, max_digits=6)
     food_tag = models.CharField(
         choices=FOOD_TAGS, max_length=10, default='normal')
     is_liked = models.BooleanField(default=False)
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class FoodCover(models.Model):
     image = models.ImageField(upload_to='pics')
-    food = models.ForeignKey(Food, on_delete=models.CASCADE)
+    food = models.ForeignKey(
+        Food, on_delete=models.CASCADE, related_name='covers')
 
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
+    def __str__(self) -> str:
+        return self.user.phone_number
+
 
 class CartItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    cart = models.ForeignKey(
+        Cart, on_delete=models.CASCADE, related_name='items')
     food = models.ForeignKey(Food, on_delete=models.CASCADE)
 
 

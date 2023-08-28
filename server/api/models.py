@@ -51,18 +51,20 @@ class CartItem(models.Model):
 
 class Order(models.Model):
     ORDER_STATUSES = (
+        ('pending', 'pending'),
         ('canceled', 'canceled'),
         ('delivered', 'delivered'),
-        ('pending', 'pending'),
     )
     order_date = models.DateTimeField(auto_now=True)
     address = models.CharField(max_length=255)
-    order_status = models.CharField(max_length=10, choices=ORDER_STATUSES)
+    order_status = models.CharField(
+        max_length=10, choices=ORDER_STATUSES, default='pending')
     deliver_with_delivery = models.BooleanField(default=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class OrderItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
     food = models.ForeignKey(Food, on_delete=models.CASCADE)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, related_name='items')

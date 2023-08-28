@@ -37,9 +37,22 @@ class CartItemViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return models.CartItem.objects.filter(cart=self.kwargs['cart_pk'])
 
+    def get_serializer_context(self):
+        return {'cart_id': self.kwargs['cart_pk']}
+
     def get_serializer_class(self, *args, **kwargs):
         if self.request.method == 'POST':
             return serializers.CartItemCreateSerializer
         return serializers.CartItemSerializer
     serializer_class = serializers.CartItemSerializer
+    permission_classes = []
+
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = models.Order.objects.all()
+
+    def get_serializer_class(self, *args, **kwargs):
+        if self.request.method == 'POST':
+            return serializers.OrderCreateSerializer
+        return serializers.OrderSerializer
     permission_classes = []

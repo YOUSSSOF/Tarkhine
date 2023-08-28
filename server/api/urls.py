@@ -6,6 +6,7 @@ from api import views
 router = DefaultRouter()
 router.register(prefix=r'foods', viewset=views.FoodViewSet, basename='food')
 router.register(prefix=r'carts', viewset=views.CartViewSet, basename='cart')
+router.register(prefix=r'orders', viewset=views.OrderViewSet, basename='order')
 
 
 cart_items_router = NestedDefaultRouter(router, 'carts', lookup='cart')

@@ -45,7 +45,6 @@ class CartItemCreateSerializer(serializers.ModelSerializer):
 
 class CartSerializer(serializers.ModelSerializer):
     items = CartItemSerializer(many=True)
-
     class Meta:
         model = models.Cart
         fields = '__all__'

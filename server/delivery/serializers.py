@@ -1,5 +1,5 @@
 from rest_framework import serializers, exceptions
-from api import models
+from delivery import models
 
 
 class FoodCoverSerializer(serializers.ModelSerializer):
@@ -27,9 +27,11 @@ class CartItemSerializer(serializers.ModelSerializer):
 
 
 class CartItemCreateSerializer(serializers.ModelSerializer):
+    quantity = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = models.CartItem
-        fields = ['food']
+        fields = ['food', 'quantity']
 
     def create(self, validated_data):
         food_id = models.Food.objects.filter(
@@ -45,9 +47,10 @@ class CartItemCreateSerializer(serializers.ModelSerializer):
 
 class CartSerializer(serializers.ModelSerializer):
     items = CartItemSerializer(many=True)
+
     class Meta:
         model = models.Cart
-        fields = '__all__'
+        fields = ['id', 'items']
 
 
 class OrderItemSerializer(serializers.ModelSerializer):

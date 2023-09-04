@@ -1,19 +1,18 @@
 from rest_framework import serializers, validators
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer as BaseTokenObtainPairSerializer
+from rest_framework_simplejwt.tokens import Token
 from authentication import models
-from api import models as api_models
-from api import serializers as api_serializers
 
 
 class UserSerializer(serializers.ModelSerializer):
-    cart = api_serializers.CartSerializer()
 
     class Meta:
         model = models.User
         fields = ['id', 'last_login', 'phone_number', 'first_name',
-                  'last_name', 'email', 'birth', 'username', 'address', 'cart']
+                  'last_name', 'email', 'birth', 'username', 'address']
 
 
-class UserCreateSerializer(serializers.ModelSerializer):
+class UserCreateSerializers(serializers.ModelSerializer):
     phone_number = serializers.CharField(
         validators=[
             validators.UniqueValidator(
@@ -28,7 +27,35 @@ class UserCreateSerializer(serializers.ModelSerializer):
         user = models.User.objects.create(**validated_data)
         user.set_unusable_password()
         user.save()
-        cart = api_models.Cart.objects.create(user=user)
-        cart.save()
+
 
         return user
+
+# OTP section
+
+
+class OtpRequestSerializer(serializers.Serializer):
+    phone_number = serializers.CharField(max_length=12)
+
+
+class OtpResponseSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Otp
+        fields = ['verification_code']
+
+
+class OtpVerificationRequestSerializer(serializers.Serializer):
+    verification_code = serializers.CharField(max_length=4)
+    phone_number = serializers.CharField(max_length=12)
+
+
+class OtpVerificationResponseSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(max_length=255)
+
+
+class TokenObtainPairSerializer(BaseTokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user: models.User) -> Token:
+        token = super().get_token(user)
+        return token

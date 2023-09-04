@@ -1,5 +1,7 @@
 from django.db import models
-from authentication.models import User
+from django.contrib.auth import get_user_model
+
+
 
 
 class Food(models.Model):
@@ -17,10 +19,10 @@ class Food(models.Model):
     name = models.CharField(max_length=100)
     content = models.CharField(max_length=255)
     price = models.DecimalField(decimal_places=2, max_digits=6)
-    comments = models.PositiveIntegerField()
-    score = models.PositiveSmallIntegerField()
-    thumbnail = models.ImageField(upload_to='pics')
-    discount = models.DecimalField(decimal_places=2, max_digits=6)
+    comments = models.PositiveIntegerField(default=0)
+    score = models.PositiveSmallIntegerField(default=0)
+    thumbnail = models.ImageField(upload_to='pics', null=True)
+    discount = models.DecimalField(decimal_places=2, max_digits=6, default=0)
     food_tag = models.CharField(
         choices=FOOD_TAGS, max_length=10, default='normal')
     is_liked = models.BooleanField(default=False)
@@ -36,7 +38,7 @@ class FoodCover(models.Model):
 
 
 class Cart(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.user.phone_number
@@ -47,7 +49,7 @@ class CartItem(models.Model):
     cart = models.ForeignKey(
         Cart, on_delete=models.CASCADE, related_name='items')
     food = models.ForeignKey(Food, on_delete=models.CASCADE)
-
+    
 
 class Order(models.Model):
     ORDER_STATUSES = (
@@ -60,7 +62,7 @@ class Order(models.Model):
     order_status = models.CharField(
         max_length=10, choices=ORDER_STATUSES, default='pending')
     deliver_with_delivery = models.BooleanField(default=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
 
 class OrderItem(models.Model):

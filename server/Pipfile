@@ -9,6 +9,10 @@ djangorestframework = "*"
 pillow = "*"
 drf-nested-routers = "*"
 django-filter = "*"
+djangorestframework-simplejwt = "*"
+pandas = "*"
+bcrypt = "*"
+requests = "*"
 
 [dev-packages]
 

@@ -16,7 +16,7 @@ class FoodViewSet(viewsets.ModelViewSet):
         max = self.request.query_params.get('max')
         is_liked = self.request.query_params.get('is_liked')
         try:
-            queryset = models.Food.objects.all()
+            queryset = models.Food.objects.all().order_by('?')
             if is_liked:
                 queryset = queryset.filter(is_liked=is_liked == 'true')
             if max:
@@ -114,4 +114,3 @@ class CurrentOrderView(generics.GenericAPIView):
             instance = order.save()
             return response.Response(order.data, status=status.HTTP_201_CREATED)
         return response.Response(order.errors, status=status.HTTP_201_CREATED)
-

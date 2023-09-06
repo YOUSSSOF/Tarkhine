@@ -11,11 +11,21 @@ class FoodCoverSerializer(serializers.ModelSerializer):
 
 
 class FoodSerializer(serializers.ModelSerializer):
-    covers = FoodCoverSerializer(many=True)
+    covers = serializers.SerializerMethodField('get_covers')
+    price_with_discount = serializers.SerializerMethodField(
+        'get_price_with_discount')
 
     class Meta:
         model = models.Food
-        fields = '__all__'
+        fields = ['id', 'name', 'content', 'price', 'discount', 'price_with_discount',
+                  'comments', 'score', 'thumbnail', 'covers', 'food_tag', 'is_liked']
+
+    def get_covers(self, obj):
+        covers = FoodCoverSerializer(obj.covers, many=True)
+        return [cover['image'] for cover in covers.data]
+
+    def get_price_with_discount(self, obj):
+        return obj.price - ((obj.price * obj.discount)/100)
 
 
 class CartItemSerializer(serializers.ModelSerializer):

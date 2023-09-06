@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-
-
+from django.core import validators
 
 
 class Food(models.Model):
@@ -18,11 +17,13 @@ class Food(models.Model):
     )
     name = models.CharField(max_length=100)
     content = models.CharField(max_length=255)
-    price = models.DecimalField(decimal_places=2, max_digits=6)
+    price = models.BigIntegerField()
     comments = models.PositiveIntegerField(default=0)
-    score = models.PositiveSmallIntegerField(default=0)
+    score = models.PositiveSmallIntegerField(
+        default=0, validators=[validators.MaxValueValidator(5)])
     thumbnail = models.ImageField(upload_to='pics', null=True)
-    discount = models.DecimalField(decimal_places=2, max_digits=6, default=0)
+    discount = models.PositiveSmallIntegerField(
+        default=0, validators=[validators.MaxValueValidator(100)])
     food_tag = models.CharField(
         choices=FOOD_TAGS, max_length=10, default='normal')
     is_liked = models.BooleanField(default=False)
@@ -49,7 +50,7 @@ class CartItem(models.Model):
     cart = models.ForeignKey(
         Cart, on_delete=models.CASCADE, related_name='items')
     food = models.ForeignKey(Food, on_delete=models.CASCADE)
-    
+
 
 class Order(models.Model):
     ORDER_STATUSES = (

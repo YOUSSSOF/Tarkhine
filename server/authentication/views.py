@@ -10,6 +10,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UserViewSet(viewsets.ModelViewSet):
+
     queryset = models.User.objects.all()
     permission_classes = [permissions.IsAdminUser]
 
@@ -55,8 +56,10 @@ class OtpVerificationView(views.APIView):
                 otp_verification_request.data['verification_code'])
             user, created = models.User.objects.get_or_create(
                 phone_number=request_phone_number)
-            otp, created = models.Otp.objects.get_or_create(
-                phone_number=request_phone_number, user=user)
+            otp = models.Otp.objects.get(
+                phone_number=request_phone_number)
+            otp.user = user
+            otp.save()
             if otp.check_verification_code(code=request_verification_code):
                 if otp.valid_from < timezone.now() < otp.valid_till:
                     if created:

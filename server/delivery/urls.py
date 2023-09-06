@@ -1,6 +1,6 @@
 from django.urls import include, path
 from rest_framework_nested.routers import NestedDefaultRouter, DefaultRouter
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 
 from delivery import views
 router = DefaultRouter()
@@ -13,6 +13,8 @@ router.register(prefix=r'auth/me/cart/items',
 cart_items_router = NestedDefaultRouter(router, 'carts', lookup='cart')
 cart_items_router.register(
     prefix=r'items', viewset=views.CartItemViewSet, basename='cartitem')
+
+
 
 urlpatterns = [
     path('', include(router.urls)),

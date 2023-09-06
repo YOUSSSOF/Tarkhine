@@ -13,6 +13,7 @@ djangorestframework-simplejwt = "*"
 pandas = "*"
 bcrypt = "*"
 requests = "*"
+drf-yasg = "*"
 
 [dev-packages]
 

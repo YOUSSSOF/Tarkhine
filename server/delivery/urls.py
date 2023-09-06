@@ -22,5 +22,4 @@ urlpatterns = [
     path('auth/me/cart/', views.CurrentCartView.as_view()),
     path('auth/me/orders/', views.CurrentOrderView.as_view()),
     path('auth/me/wishlist/', views.CurrentWishListView.as_view()),
-
 ]

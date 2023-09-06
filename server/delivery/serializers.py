@@ -124,7 +124,12 @@ class WishListItemCreateSerializer(serializers.ModelSerializer):
         fields = ['food']
 
     def create(self, validated_data):
-        return models.WishListItem.objects.create(**validated_data, wishlist_id=self.context['wishlist_id'])
+        try:
+            item = models.WishListItem.objects.get(food=validated_data['food'])
+            if item:
+                return item
+        except:
+            return models.WishListItem.objects.create(**validated_data, wishlist_id=self.context['wishlist_id'])
 
 
 class WishListSerializer(serializers.ModelSerializer):

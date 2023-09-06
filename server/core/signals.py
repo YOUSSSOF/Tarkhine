@@ -9,3 +9,5 @@ def user_created(sender, instance: auth_models.User, created, **kwargs):
     if created:
         cart = api_models.Cart.objects.create(user=instance)
         cart.save()
+        wishlist = api_models.WishList.objects.create(user=instance)
+        wishlist.save()

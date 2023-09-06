@@ -114,3 +114,35 @@ class CurrentOrderView(generics.GenericAPIView):
             instance = order.save()
             return response.Response(order.data, status=status.HTTP_201_CREATED)
         return response.Response(order.errors, status=status.HTTP_201_CREATED)
+
+
+class CurrentWishListView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        wishlist = models.WishList.objects.filter(
+            user=user).first()
+
+        return response.Response(
+            data=serializers.WishListSerializer(wishlist).data
+        )
+
+
+class CurrentWishListItemsViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        wishlist = models.WishList.objects.filter(
+            user=self.request.user).first()
+        return models.WishListItem.objects.filter(wishlist=wishlist)
+
+    def get_serializer_class(self, *args, **kwargs):
+        if self.request.method == 'POST':
+            return serializers.WishListItemCreateSerializer
+        return serializers.WishListItemSerializer
+
+    def get_serializer_context(self):
+        wishlist = models.WishList.objects.filter(
+            user=self.request.user).first()
+        return {'wishlist_id': wishlist.id}

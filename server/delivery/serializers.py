@@ -18,7 +18,7 @@ class FoodSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Food
         fields = ['id', 'name', 'content', 'price', 'discount', 'price_with_discount',
-                  'comments', 'score', 'thumbnail', 'covers', 'food_tag', 'is_liked']
+                  'comments', 'score', 'thumbnail', 'covers', 'food_tag']
 
     def get_covers(self, obj):
         covers = FoodCoverSerializer(obj.covers, many=True)
@@ -107,3 +107,29 @@ class OrderCreateSerializer(serializers.ModelSerializer):
                 default_detail = 'Cart is empty.'
                 status_code = 400
             raise CartIsEmpty()
+
+
+class WishListItemSerializer(serializers.ModelSerializer):
+    food = FoodSerializer()
+
+    class Meta:
+        model = models.WishListItem
+        fields = ['id', 'food']
+
+
+class WishListItemCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.WishListItem
+        fields = ['food']
+
+    def create(self, validated_data):
+        return models.WishListItem.objects.create(**validated_data, wishlist_id=self.context['wishlist_id'])
+
+
+class WishListSerializer(serializers.ModelSerializer):
+    items = WishListItemSerializer(many=True)
+
+    class Meta:
+        model = models.WishList
+        fields = ['id', 'items']

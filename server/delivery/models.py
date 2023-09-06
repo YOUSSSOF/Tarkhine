@@ -26,7 +26,6 @@ class Food(models.Model):
         default=0, validators=[validators.MaxValueValidator(100)])
     food_tag = models.CharField(
         choices=FOOD_TAGS, max_length=10, default='normal')
-    is_liked = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.name
@@ -71,3 +70,13 @@ class OrderItem(models.Model):
     food = models.ForeignKey(Food, on_delete=models.CASCADE)
     order = models.ForeignKey(
         Order, on_delete=models.CASCADE, related_name='items')
+
+
+class WishList(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+
+
+class WishListItem(models.Model):
+    food = models.ForeignKey(Food, on_delete=models.CASCADE)
+    wishlist = models.ForeignKey(
+        WishList, on_delete=models.CASCADE, related_name='items')

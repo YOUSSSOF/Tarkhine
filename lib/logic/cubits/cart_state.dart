@@ -7,7 +7,6 @@ abstract class CartState extends Equatable {
 class CartInitialState extends CartState {
   @override
   List<Object?> get props => [];
-
 }
 
 class CartLoadingState extends CartState {
@@ -26,11 +25,9 @@ class CartUpdatedState extends CartState {
   List<Object?> get props => [cart];
 }
 
-class CartItemLoadingState extends CartState {
-  final int? foodId;
-  const CartItemLoadingState({
-    this.foodId,
-  });
+class CartItemsLoadingState extends CartState {
+  final int foodId;
+  const CartItemsLoadingState({required this.foodId});
   @override
   List<Object?> get props => throw [foodId];
 }
@@ -43,30 +40,6 @@ class CartAddedFoodState extends CartState {
 
   @override
   List<Object?> get props => [food];
-}
-
-class CartIncreasedQuantityState extends CartState {
-  final int foodId;
-  final int newQuantity;
-  const CartIncreasedQuantityState({
-    required this.foodId,
-    required this.newQuantity,
-  });
-  @override
-  List<Object?> get props => [foodId, newQuantity];
-}
-
-class CartDecreasedQuantityState extends CartState {
-  final int foodId;
-
-  final int newQuantity;
-  const CartDecreasedQuantityState({
-    required this.foodId,
-    required this.newQuantity,
-  });
-
-  @override
-  List<Object?> get props => [foodId, newQuantity];
 }
 
 class CartApplyingDiscountCodeLoadingState extends CartState {

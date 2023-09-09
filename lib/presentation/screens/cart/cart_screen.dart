@@ -21,7 +21,7 @@ class CartScreen extends StatelessWidget {
         listener: (context, state) {
           switch (state.runtimeType) {
             case CartAddedFoodActionState:
-              showSnackbar(context, 'با موفقیت به سبد خرید افزوده شد/',
+              showSnackbar(context, 'با موفقیت به سبد خرید افزوده شد.',
                   SnackBarType.success);
           }
         },

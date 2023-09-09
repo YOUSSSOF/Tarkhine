@@ -71,7 +71,8 @@ class CurrentCartView(generics.GenericAPIView):
 
     def get(self, request):
         user = request.user
-        cart = models.Cart.objects.filter(user=user).first()
+        cart = models.Cart.objects.filter(
+            user=user).prefetch_related('items').first()
         return response.Response(
             data=serializers.CartSerializer(cart).data
         )
@@ -81,20 +82,36 @@ class CurrentCartItemsViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        cart = models.Cart.objects.filter(user=self.request.user).first()
-        return models.CartItem.objects.filter(cart=cart)
+        cart = models.Cart.objects.filter(
+            user=self.request.user).prefetch_related('items').first()
+        return models.CartItem.objects.filter(cart=cart).select_related('cart')
 
     def get_serializer_class(self, *args, **kwargs):
         if self.request.method == 'POST':
             return serializers.CartItemCreateSerializer
         return serializers.CartItemSerializer
 
+    def destroy(self, request, *args, **kwargs):
+        item: models.CartItem = self.get_object()
+        if item.quantity > 1:
+            item.quantity = item.quantity - 1
+            item.save()
+            return response.Response(serializers.CartItemSerializer(item).data)
+        else:
+            item.delete()
+            return response.Response(status=status.HTTP_204_NO_CONTENT)
+
+    def get_serializer_context(self):
+        cart = models.Cart.objects.filter(
+            user=self.request.user).prefetch_related('items').first()
+        return {'cart_id': cart.id}
+
 
 class CurrentOrderView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return models.Order.objects.filter(user=self.request.user)
+        return models.Order.objects.filter(user=self.request.user).prefetch_related('items')
 
     def get_serializer_class(self, *args, **kwargs):
         if self.request.method == 'POST':
@@ -122,7 +139,7 @@ class CurrentWishListView(generics.GenericAPIView):
     def get(self, request):
         user = request.user
         wishlist = models.WishList.objects.filter(
-            user=user).first()
+            user=user).prefetch_related('items').first()
 
         return response.Response(
             data=serializers.WishListSerializer(wishlist).data
@@ -134,8 +151,8 @@ class CurrentWishListItemsViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         wishlist = models.WishList.objects.filter(
-            user=self.request.user).first()
-        return models.WishListItem.objects.filter(wishlist=wishlist)
+            user=self.request.user).prefetch_related('items').first()
+        return models.WishListItem.objects.filter(wishlist=wishlist).select_related('wishlist')
 
     def get_serializer_class(self, *args, **kwargs):
         if self.request.method == 'POST':

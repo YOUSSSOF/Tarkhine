@@ -27,6 +27,15 @@ class CurrentUserView(views.APIView):
         user = serializers.UserSerializer(request.user)
         return response.Response(user.data)
 
+    def put(self, request, format=None):
+        instance = request.user
+        serializer = serializers.UserSerializer(instance, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return response.Response(serializer.data)
+        return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class OtpView(views.APIView):
     def post(self, request):
@@ -38,8 +47,8 @@ class OtpView(views.APIView):
             otp, created = models.Otp.objects.get_or_create(
                 phone_number=request_phone_number)
             code = otp.generate_verification_code()
-            otp.send_sms(request_phone_number, code)
-            return response.Response(status=status.HTTP_200_OK)
+            # otp.send_sms(request_phone_number, code)
+            return response.Response({'code': code}, status=status.HTTP_200_OK)
         else:
             return response.Response(data={'error': 'invalid phone number, try again.'})
 
@@ -78,4 +87,4 @@ class OtpVerificationView(views.APIView):
                 return response.Response(data={'error': 'verification code is wrong.'}, status=status.HTTP_400_BAD_REQUEST)
 
         else:
-            return response.Response(data={'error': 'invalid data, try again.'})
+            return response.Response(otp_verification_request.errors)

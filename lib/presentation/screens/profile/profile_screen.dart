@@ -78,7 +78,7 @@ class ProfileScreen extends StatelessWidget {
               icon: Iconsax.location,
               onTap: () => showSnackbar(
                 context,
-                'بخش آدرس ها توسعه نیافته.',
+                'این بخش توسعه نیافته است.',
                 SnackBarType.warning,
               ),
             ),
@@ -97,7 +97,7 @@ class ProfileScreen extends StatelessWidget {
               icon: Iconsax.call_calling,
               onTap: () => showSnackbar(
                 context,
-                'بخش آدرس ها توسعه نیافته.',
+                'این بخش توسعه نیافته است.',
                 SnackBarType.warning,
               ),
             ),

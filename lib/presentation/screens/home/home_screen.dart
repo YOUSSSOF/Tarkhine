@@ -29,17 +29,17 @@ class HomeScreen extends StatelessWidget {
                 const MenuSection(),
                 MainSection(
                   title: 'پیشنهاد ویژه',
-                  items: state.mainFoods.filterWithTag(FoodTag.special),
+                  items: state.mainFoods.filterWithTag(FoodTag.pizza),
                   isGreenTheme: true,
                 ),
                 MainSection(
                   title: 'غذاهای محبوب',
-                  items: state.mainFoods.filterWithTag(FoodTag.favorite),
+                  items: state.mainFoods.filterWithTag(FoodTag.nonPersian),
                   isGreenTheme: false,
                 ),
                 MainSection(
                   title: 'غذاهای غیر ایرانی',
-                  items: state.mainFoods.filterWithTag(FoodTag.nonPersian),
+                  items: state.mainFoods.filterWithTag(FoodTag.sandwich),
                   isGreenTheme: true,
                 ),
               ],

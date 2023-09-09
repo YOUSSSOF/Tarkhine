@@ -15,8 +15,8 @@ class FoodModel {
   final String? thumbnail;
   final List<String>? covers;
   final double discount;
-  final FoodTag tag;
-    bool isLiked;
+  FoodTag tag;
+  bool isLiked;
 
   String get discountInP => makePricePersian(discount.toString());
   double get priceWithDiscount => price - (discount / 100) * price;
@@ -73,14 +73,14 @@ class FoodModel {
     result.addAll({'name': name});
     result.addAll({'content': content});
     result.addAll({'price': price});
-    if(comments != null){
+    if (comments != null) {
       result.addAll({'comments': comments});
     }
     result.addAll({'score': score});
-    if(thumbnail != null){
+    if (thumbnail != null) {
       result.addAll({'thumbnail': thumbnail});
     }
-    if(covers != null){
+    if (covers != null) {
       result.addAll({'covers': covers});
     }
     result.addAll({'discount': discount});
@@ -101,8 +101,7 @@ class FoodModel {
       thumbnail: map['thumbnail'],
       covers: List<String>.from(map['covers']),
       discount: map['discount']?.toDouble() ?? 0.0,
-      tag: FoodTag.normal,
-      isLiked: map['isLiked'] ?? false,
+      isLiked: false,
     );
   }
 
@@ -121,31 +120,31 @@ class FoodModel {
     if (identical(this, other)) return true;
 
     return other is FoodModel &&
-      other.id == id &&
-      other.name == name &&
-      other.content == content &&
-      other.price == price &&
-      other.comments == comments &&
-      other.score == score &&
-      other.thumbnail == thumbnail &&
-      listEquals(other.covers, covers) &&
-      other.discount == discount &&
-      other.tag == tag &&
-      other.isLiked == isLiked;
+        other.id == id &&
+        other.name == name &&
+        other.content == content &&
+        other.price == price &&
+        other.comments == comments &&
+        other.score == score &&
+        other.thumbnail == thumbnail &&
+        listEquals(other.covers, covers) &&
+        other.discount == discount &&
+        other.tag == tag &&
+        other.isLiked == isLiked;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      name.hashCode ^
-      content.hashCode ^
-      price.hashCode ^
-      comments.hashCode ^
-      score.hashCode ^
-      thumbnail.hashCode ^
-      covers.hashCode ^
-      discount.hashCode ^
-      tag.hashCode ^
-      isLiked.hashCode;
+        name.hashCode ^
+        content.hashCode ^
+        price.hashCode ^
+        comments.hashCode ^
+        score.hashCode ^
+        thumbnail.hashCode ^
+        covers.hashCode ^
+        discount.hashCode ^
+        tag.hashCode ^
+        isLiked.hashCode;
   }
 }

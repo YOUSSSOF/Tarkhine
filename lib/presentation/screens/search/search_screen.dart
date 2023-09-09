@@ -77,6 +77,8 @@ class SearchScreen extends StatelessWidget {
                         .marginOnly(top: context.percentHeight(30))
                         .center
                     : ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: state is SearchSuccessState
                             ? (state).results.length
                             : 0,
@@ -117,7 +119,7 @@ class SearchScreen extends StatelessWidget {
                             ).margin(15),
                           );
                         },
-                      ).sizedBox(height: context.height),
+                      ),
               ],
             ),
           );

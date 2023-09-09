@@ -156,3 +156,5 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
     "TOKEN_OBTAIN_SERIALIZER": "authentication.serializers.TokenObtainPairSerializer",
 }
+
+ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1']

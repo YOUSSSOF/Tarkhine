@@ -4,6 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tarkhine/common/common.dart';
 import 'package:tarkhine/core/core.dart';
+import 'package:tarkhine/logic/cubits/order_cubit.dart';
 import 'package:tarkhine/presentation/screens/cart/checkout_screen.dart';
 import 'package:tarkhine/presentation/screens/cart/widgets/cart_status_section.dart';
 import 'widgets/addresses.dart';
@@ -12,9 +13,11 @@ import 'widgets/send_option.dart';
 class CompleteInfoScreen extends StatelessWidget {
   CompleteInfoScreen({
     Key? key,
+    required this.orderCubit,
   }) : super(key: key);
   final BehaviorSubject<bool> sendWithDelivery = BehaviorSubject.seeded(true);
   final BehaviorSubject<List<String>> addresses = BehaviorSubject.seeded([]);
+  final OrderCubit orderCubit;
 
   @override
   Widget build(BuildContext context) {
@@ -165,6 +168,7 @@ class CompleteInfoScreen extends StatelessWidget {
                                   value: context.cart,
                                   child: CheckoutScreen(
                                     sendWithDelivery: sendWithDelivery.value,
+                                    orderCubit: orderCubit,
                                   ),
                                 ),
                               ),

@@ -41,7 +41,8 @@ class DeliveryCubit extends Cubit<DeliveryState> {
     try {
       if (!state.menuFoods.nullOrNot && !reFeth) return;
       emit(state.copyWith(isLoading: true));
-      List<FoodModel> menuFoods = await _deliveryRepository.fetchMainFoods();
+      List<FoodModel> menuFoods = await _deliveryRepository.fetchMenuFoods();
+
       emit(state.copyWith(
         isLoading: false,
         menuFoods: menuFoods,

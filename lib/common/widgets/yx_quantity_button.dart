@@ -19,7 +19,8 @@ class YxQuantityButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton(
-          onPressed: () => context.cart.increaseQuantity(current),
+          onPressed: () =>
+              context.cart.increaseQuantity(current, context.auth.user!),
           icon: SvgPicture.asset(Assets.vectors.add),
         ),
         YxText(
@@ -29,7 +30,7 @@ class YxQuantityButton extends StatelessWidget {
           color: AppColor.primary,
         ).sizedBox(width: 3),
         IconButton(
-          onPressed: () => context.cart.dereaseQuantity(current),
+          onPressed: () => context.cart.dereaseQuantity(current,context.auth.user!),
           icon: SvgPicture.asset(Assets.vectors.remove),
         ),
       ],

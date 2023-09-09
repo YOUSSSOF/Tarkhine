@@ -137,9 +137,14 @@ class CartMainSection extends StatelessWidget {
                 YxButton(
                   title: 'تکمیل اطلاعات',
                   onPressed: () => context.to(
-                    BlocProvider.value(
-                      value: context.cart,
-                      child: CompleteInfoScreen(),
+                    MultiBlocProvider(
+                      providers: [
+                        BlocProvider.value(value: context.cart),
+                        BlocProvider.value(value: context.order)
+                      ],
+                      child: CompleteInfoScreen(
+                        orderCubit: context.order,
+                      ),
                     ),
                   ),
                   width: context.width,

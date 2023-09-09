@@ -35,7 +35,7 @@ class MenuItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         YxText('${food.showPrice} تومان').marginOnly(bottom: 5),
-                        if (state is CartItemLoadingState &&
+                        if (state is CartItemsLoadingState &&
                                 food.id == state.foodId ||
                             state is CartLoadingState ||
                             context.cart.nullOrNot ||
@@ -86,13 +86,13 @@ class MenuItem extends StatelessWidget {
                           height: 5,
                         ),
                         YxText('${food.showPriceWithDiscount} تومان'),
-                        if (state is CartItemLoadingState &&
+                        if (state is CartItemsLoadingState &&
                                 food.id == state.foodId ||
                             state is CartLoadingState ||
                             context.cart.isInCart(food).$1.nullOrNot)
                           const YxLoader(
                             size: 20,
-                          ).marginOnly(bottom: 20).center
+                          ).marginOnly(bottom: 5, left: 10).center
                         else if (context.cart.isInCart(food).$1 &&
                             !context.cart.isInCart(food).$2.nullOrNot)
                           YxQuantityButton(
@@ -102,7 +102,8 @@ class MenuItem extends StatelessWidget {
                           YxButton(
                             title: 'افزودن به سبد خرید',
                             fontSize: 10,
-                            onPressed: () => context.cart.addToCart(food),
+                            onPressed: () => context.cart
+                                .addToCart(food, context.auth.user!),
                           ).sizedBox(height: 32),
                       ],
                     ).margin(10),
@@ -114,7 +115,7 @@ class MenuItem extends StatelessWidget {
                   YxText(
                     food.name,
                     fontSize: 12,
-                  ),
+                  ).sizedBox(width: 100),
                   YxText(
                     food.content,
                     fontSize: 10,
@@ -153,10 +154,16 @@ class MenuItem extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(4),
-                  child: Image.asset(
+                  child: Image.network(
                     food.thumbnail ?? Assets.images.notFound,
                     width: context.percentWidth(30),
                     height: context.percentWidth(30),
+                      errorBuilder: (context, error, stackTrace) => Image.asset(
+                      Assets.images.notFound,
+                      fit: BoxFit.cover,
+                      width: context.percentWidth(30),
+                      height: context.percentWidth(30),
+                    ),
                     fit: BoxFit.cover,
                   ),
                 ),

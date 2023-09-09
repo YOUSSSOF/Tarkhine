@@ -22,7 +22,18 @@ class OrderCubit extends Cubit<OrderState> {
       _orders = await _orderRepository.getOrders(user);
       emit(OrdersFetchedState(orders: _orders));
     } catch (e) {
-      emit(OrderErrorState(exception: e as Exception));
+      emit(OrderErrorState(exception: Exception(e)));
+    }
+  }
+
+  Future<void> postOrder(
+      UserModel user, String address, bool deliveryWithDelivery) async {
+    try {
+      await _orderRepository.postOrder(user, address, deliveryWithDelivery);
+      fetchOrders(user);
+      emit(OrdersFetchedState(orders: _orders));
+    } catch (e) {
+      emit(OrderErrorState(exception: Exception(e)));
     }
   }
 

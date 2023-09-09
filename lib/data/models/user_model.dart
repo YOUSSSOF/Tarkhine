@@ -6,9 +6,9 @@ class UserModel {
   final String? firstName;
   final String? lastName;
   final String? email;
-  final DateTime? birth;
+  final String? birth;
   final String? username;
-  final String? token;
+  String? token;
   final String? address;
   UserModel({
     required this.id,
@@ -30,7 +30,7 @@ class UserModel {
     String? firstName,
     String? lastName,
     String? email,
-    DateTime? birth,
+    String? birth,
     String? username,
     String? token,
     String? address,
@@ -52,18 +52,18 @@ class UserModel {
     final result = <String, dynamic>{};
 
     result.addAll({'id': id});
-    result.addAll({'phoneNumber': phoneNumber});
+    result.addAll({'phone_number': phoneNumber});
     if (firstName != null) {
-      result.addAll({'firstName': firstName});
+      result.addAll({'first_name': firstName});
     }
     if (lastName != null) {
-      result.addAll({'lastName': lastName});
+      result.addAll({'last_name': lastName});
     }
     if (email != null) {
       result.addAll({'email': email});
     }
     if (birth != null) {
-      result.addAll({'birth': birth!.millisecondsSinceEpoch});
+      result.addAll({'birth': birth});
     }
     if (username != null) {
       result.addAll({'username': username});
@@ -81,15 +81,13 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       id: map['id']?.toInt() ?? 0,
-      phoneNumber: map['phoneNumber'] ?? '',
-      firstName: map['firstName'],
-      lastName: map['lastName'],
+      phoneNumber: map['phone_number'] ?? '',
+      firstName: map['first_name'],
+      lastName: map['last_name'],
       email: map['email'],
-      birth: map['birth'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['birth'])
-          : null,
+      birth: map['birth'],
       username: map['username'],
-      token: map['token'],
+      token: map['token'] ?? "",
       address: map['address'],
     );
   }

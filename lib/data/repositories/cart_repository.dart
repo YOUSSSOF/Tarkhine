@@ -1,33 +1,102 @@
+import 'dart:convert';
+
 import 'package:tarkhine/data/models/cart_model.dart';
 import 'package:tarkhine/data/models/food_model.dart';
 import 'package:tarkhine/data/models/user_model.dart';
 import 'package:tarkhine/data/repositories/config.dart';
-import 'package:tarkhine/data/repositories/delivery_repository.dart';
+import 'package:http/http.dart';
 
 class CartRepository extends Repository {
   Future<CartModel> getCart(UserModel user) async {
     try {
-      await Future.delayed(const Duration(seconds: 2));
-      return CartModel(
-        id: 1,
-        userId: user.id,
-        items: [
-          CartItemModel(id: 1, cartId: 1, food: foods[0], quantity: 1),
-          CartItemModel(id: 2, cartId: 1, food: foods[1], quantity: 2),
-          CartItemModel(id: 3, cartId: 1, food: foods[2], quantity: 1),
-          CartItemModel(id: 4, cartId: 1, food: foods[3], quantity: 1),
-          CartItemModel(id: 5, cartId: 1, food: foods[4], quantity: 2),
-          CartItemModel(id: 6, cartId: 1, food: foods[5], quantity: 1),
-        ],
-      );
+      Response response = await client.get(myCartEndpoint,
+          headers: {'Authorization': 'Bearer ${user.token!}'});
+      if (response.statusCode == 200) {
+        Map data = json.decode(utf8.decode(response.bodyBytes));
+        CartModel cart = CartModel(id: data['id'], userId: user.id, items: []);
+        List<CartItemModel> items = [];
+        for (Map itemData in data['items']) {
+          CartItemModel item = CartItemModel(
+            id: itemData['id'],
+            cartId: cart.id,
+            food: FoodModel.fromMap(itemData['food']),
+            quantity: itemData['quantity'],
+          );
+          items.add(item);
+        }
+        cart.items = items;
+        return cart;
+      } else {
+        throw Exception();
+      }
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<void> addToCart(FoodModel food) async {
+  Future<List<CartItemModel>> addToCart(
+      FoodModel food, CartModel cart, UserModel user) async {
     try {
-      await Future.delayed(const Duration(seconds: 1));
+      Response addResponse = await client.post(myCartAddItemEndpoint,
+          body: {'food': food.id.toString()},
+          headers: {'Authorization': 'Bearer ${user.token!}'});
+      if (addResponse.statusCode == 201) {
+        Response itemsResponse = await client.get(myCartItemsEndpoint,
+            headers: {'Authorization': 'Bearer ${user.token!}'});
+        if (itemsResponse.statusCode == 200) {
+          List<CartItemModel> items = [];
+          for (Map itemData
+              in json.decode(utf8.decode(itemsResponse.bodyBytes))) {
+            CartItemModel item = CartItemModel(
+              id: itemData['id'],
+              cartId: cart.id,
+              food: FoodModel.fromMap(itemData['food']),
+              quantity: itemData['quantity'],
+            );
+            items.add(item);
+          }
+          return items;
+        } else {
+          throw Exception(itemsResponse.body);
+        }
+      } else {
+        throw Exception(addResponse.body);
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<CartItemModel>> removeFromCart(
+      CartItemModel cartItem, UserModel user) async {
+    try {
+      Response deleteResponse = await client.delete(
+          myCartDeleteItemEndpoint(cartItem.id),
+          headers: {'Authorization': 'Bearer ${user.token!}'});
+      print(myCartDeleteItemEndpoint(cartItem.id));
+      if (deleteResponse.statusCode == 204 ||
+          deleteResponse.statusCode == 200) {
+        Response itemsResponse = await client.get(myCartItemsEndpoint,
+            headers: {'Authorization': 'Bearer ${user.token!}'});
+        if (itemsResponse.statusCode == 200) {
+          List<CartItemModel> items = [];
+          for (Map itemData
+              in json.decode(utf8.decode(itemsResponse.bodyBytes))) {
+            CartItemModel item = CartItemModel(
+              id: itemData['id'],
+              cartId: cartItem.cartId,
+              food: FoodModel.fromMap(itemData['food']),
+              quantity: itemData['quantity'],
+            );
+            items.add(item);
+          }
+          return items;
+        } else {
+          throw Exception(itemsResponse.body);
+        }
+      } else {
+        throw Exception(deleteResponse.body);
+      }
     } catch (e) {
       rethrow;
     }

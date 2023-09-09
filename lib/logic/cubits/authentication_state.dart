@@ -9,6 +9,9 @@ abstract class AuthenticationActionState extends AuthenticationState {}
 class AuthenticationInitial extends AuthenticationState {}
 
 class AuthenticationLoadingState extends AuthenticationState {}
+class AuthenticationInternetErrorState
+    extends AuthenticationState {}
+
 
 class AuthenticationFailedNavigateToAuthActionState
     extends AuthenticationActionState {}
@@ -44,3 +47,5 @@ class AuthenticationErrorState extends AuthenticationState {
 
   AuthenticationErrorState(this.error);
 }
+
+class AuthenticationInternetErrorActionState extends AuthenticationActionState {}

@@ -30,6 +30,7 @@ class Root extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => OrderCubit(context.auth.user!),
+          lazy: false,
         ),
       ],
       child: BlocListener<InternetCubit, InternetState>(
@@ -47,7 +48,7 @@ class Root extends StatelessWidget {
           builder: (context, state) {
             return GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
-              child: Scaffold(
+              child:  Scaffold(
                 backgroundColor: AppColor.white,
                 appBar: appbars[(state as NavigationIndexState).index],
                 body: state is NavigationLoadingState

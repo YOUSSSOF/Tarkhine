@@ -24,6 +24,12 @@ class SpalshScreen extends StatelessWidget {
             context.to(IntroductionScreen());
           case AuthenticationFailedNavigateToAuthActionState:
             context.toOff(AuthScreen());
+          case AuthenticationInternetErrorActionState:
+            showSnackbar(
+              context,
+              'لطفا از اتصال اینترنت خود اطمینان حاصل کنید.',
+              SnackBarType.error,
+            );
         }
       },
       builder: (context, state) {
@@ -43,11 +49,19 @@ class SpalshScreen extends StatelessWidget {
               ).center,
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Lottie.asset(
-                  Assets.lotties.loader,
-                  height: 100,
-                  width: 100,
-                ),
+                child: state is AuthenticationInternetErrorState
+                    ? IconButton(
+                        onPressed: () => context.auth.authenticateUser(),
+                        icon: const Icon(
+                          Icons.refresh,
+                          color: AppColor.white,
+                        ),
+                      )
+                    : Lottie.asset(
+                        Assets.lotties.loader,
+                        height: 100,
+                        width: 100,
+                      ),
               ),
             ],
           ),

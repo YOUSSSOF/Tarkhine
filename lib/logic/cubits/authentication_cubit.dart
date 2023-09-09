@@ -40,16 +40,9 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       emit(AuthenticationSentNavigateToVerifyActionState(mobileNumber));
       emit(AuthenticationInitial());
     } catch (e) {
+      print(e);
       emit(AuthenticationErrorState(e as Exception));
       emit(AuthenticationInitial());
-    }
-  }
-
-  void resendSMS(String mobileNumber) async {
-    try {
-      await _authenticationRepository.sendSMS(mobileNumber);
-    } catch (e) {
-      emit(AuthenticationErrorState(e as Exception));
     }
   }
 
@@ -67,9 +60,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   void authenticateUser() async {
+    String? token;
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('token');
+      token = prefs.getString('token');
       if (token == null || token == '') {
         checkIfIsFirstTime();
         return;
@@ -78,6 +72,11 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       emit(AuthenticationSuccedNavigateToAuthActionState());
       emit(AuthenticationSucceedVerificationState(_user!));
     } catch (e) {
+      if (token != null) {
+        emit(AuthenticationInternetErrorState());
+        emit(AuthenticationInternetErrorActionState());
+        return;
+      }
       checkIfIsFirstTime();
       return;
     }
@@ -94,6 +93,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     try {
       emit(AuthenticationLoadingState());
       _user = await _authenticationRepository.updateUser(
+        user: user!,
         firstName: firstName,
         lastName: lastName,
         emailAddress: emailAddress,
@@ -103,7 +103,8 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
 
       emit(AuthenticationSucceedVerificationState(_user!));
     } catch (e) {
-      emit(AuthenticationErrorState(e as Exception));
+      print(e);
+      emit(AuthenticationErrorState(Exception(e)));
     }
   }
 

@@ -46,7 +46,7 @@ class OtpResponseSerializer(serializers.ModelSerializer):
 
 
 class OtpVerificationRequestSerializer(serializers.Serializer):
-    verification_code = serializers.CharField(max_length=4)
+    verification_code = serializers.CharField(max_length=5)
     phone_number = serializers.CharField(max_length=12)
 
 

@@ -9,12 +9,10 @@ class OrderItemModel {
   final int id;
   final FoodModel food;
   final int quantity;
-  final int userId;
   OrderItemModel({
     required this.id,
     required this.food,
     required this.quantity,
-    required this.userId,
   });
 
   OrderItemModel copyWith({
@@ -27,7 +25,6 @@ class OrderItemModel {
       id: id ?? this.id,
       food: food ?? this.food,
       quantity: quantity ?? this.quantity,
-      userId: userId ?? this.userId,
     );
   }
 
@@ -37,7 +34,6 @@ class OrderItemModel {
     result.addAll({'id': id});
     result.addAll({'food': food.toMap()});
     result.addAll({'quantity': quantity});
-    result.addAll({'userId': userId});
 
     return result;
   }
@@ -47,7 +43,6 @@ class OrderItemModel {
       id: map['id']?.toInt() ?? 0,
       food: FoodModel.fromMap(map['food']),
       quantity: map['quantity']?.toInt() ?? 0,
-      userId: map['userId']?.toInt() ?? 0,
     );
   }
 
@@ -58,7 +53,7 @@ class OrderItemModel {
 
   @override
   String toString() {
-    return 'OrderItemModel(id: $id, food: $food, quantity: $quantity, userId: $userId)';
+    return 'OrderItemModel(id: $id, food: $food, quantity: $quantity)';
   }
 
   @override
@@ -68,19 +63,18 @@ class OrderItemModel {
     return other is OrderItemModel &&
         other.id == id &&
         other.food == food &&
-        other.quantity == quantity &&
-        other.userId == userId;
+        other.quantity == quantity;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ food.hashCode ^ quantity.hashCode ^ userId.hashCode;
+    return id.hashCode ^ food.hashCode ^ quantity.hashCode;
   }
 }
 
 class OrderModel {
   final int id;
-  final DateTime orderDate;
+  final String orderDate;
   final String address;
   final OrderStatus orderStatus;
   final bool deliverWithDelivery;
@@ -96,7 +90,7 @@ class OrderModel {
 
   OrderModel copyWith({
     int? id,
-    DateTime? orderDate,
+    String? orderDate,
     String? address,
     OrderStatus? orderStatus,
     bool? deliverWithDelivery,
@@ -116,10 +110,10 @@ class OrderModel {
     final result = <String, dynamic>{};
 
     result.addAll({'id': id});
-    result.addAll({'orderDate': orderDate.millisecondsSinceEpoch});
+    result.addAll({'order_date': orderDate});
     result.addAll({'address': address});
-    result.addAll({'orderStatus': orderStatus});
-    result.addAll({'deliverWithDelivery': deliverWithDelivery});
+    result.addAll({'order_status': orderStatus});
+    result.addAll({'deliver_with_delivery': deliverWithDelivery});
     result.addAll({'items': items.map((x) => x.toMap()).toList()});
 
     return result;
@@ -128,11 +122,12 @@ class OrderModel {
   factory OrderModel.fromMap(Map<String, dynamic> map) {
     return OrderModel(
       id: map['id']?.toInt() ?? 0,
-      orderDate: DateTime.fromMillisecondsSinceEpoch(map['orderDate']),
+      orderDate: map['orderDate'],
       address: map['address'] ?? '',
       orderStatus: OrderStatus.pending,
       deliverWithDelivery: map['deliverWithDelivery'] ?? false,
-      items: List<OrderItemModel>.from(map['items']?.map((x) => OrderItemModel.fromMap(x))),
+      items: List<OrderItemModel>.from(
+          map['items']?.map((x) => OrderItemModel.fromMap(x))),
     );
   }
 
@@ -151,21 +146,21 @@ class OrderModel {
     if (identical(this, other)) return true;
 
     return other is OrderModel &&
-      other.id == id &&
-      other.orderDate == orderDate &&
-      other.address == address &&
-      other.orderStatus == orderStatus &&
-      other.deliverWithDelivery == deliverWithDelivery &&
-      listEquals(other.items, items);
+        other.id == id &&
+        other.orderDate == orderDate &&
+        other.address == address &&
+        other.orderStatus == orderStatus &&
+        other.deliverWithDelivery == deliverWithDelivery &&
+        listEquals(other.items, items);
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      orderDate.hashCode ^
-      address.hashCode ^
-      orderStatus.hashCode ^
-      deliverWithDelivery.hashCode ^
-      items.hashCode;
+        orderDate.hashCode ^
+        address.hashCode ^
+        orderStatus.hashCode ^
+        deliverWithDelivery.hashCode ^
+        items.hashCode;
   }
 }

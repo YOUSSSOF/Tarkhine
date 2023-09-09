@@ -39,7 +39,7 @@ class Otp(models.Model):
         User, on_delete=models.CASCADE, related_name='otp', null=True)
 
     def generate_verification_code(self):
-        code = ''.join(random.choices(string.digits, k=4))
+        code = ''.join(random.choices(string.digits, k=5))
         hashed_code = bcrypt.hashpw(code.encode(
             'utf-8'), bcrypt.gensalt())
         self.verification_code = hashed_code.decode('utf-8')

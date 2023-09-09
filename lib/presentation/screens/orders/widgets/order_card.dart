@@ -145,10 +145,16 @@ class OrderCard extends StatelessWidget {
                             ),
                             child: Stack(
                               children: [
-                                Image.asset(
-                                  current.food.thumbnail ??
-                                      Assets.images.notFound,
+                                Image.network(
+                                  'http://10.0.2.2${current.food.thumbnail}',
                                   fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Image.asset(
+                                    Assets.images.notFound,
+                                    fit: BoxFit.cover,
+                                    height: 50,
+                                    width: 100,
+                                  ),
                                   height: 50,
                                   width: 100,
                                 ),

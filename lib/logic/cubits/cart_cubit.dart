@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:tarkhine/common/common.dart';
 import 'package:tarkhine/data/models/food_model.dart';
 import 'package:tarkhine/data/models/user_model.dart';
 import '../../data/models/cart_model.dart';
@@ -31,71 +30,59 @@ class CartCubit extends Cubit<CartState> {
       _cart = await _cartRepository.getCart(user);
       emit(CartUpdatedState(cart: _cart));
     } catch (e) {
+      emit(CartErrorActionState(exception: Exception()));
+    }
+  }
+
+  void addToCart(FoodModel food, UserModel user) async {
+    if (state is CartItemsLoadingState) return;
+    emit(CartItemsLoadingState(foodId: food.id));
+    try {
+      _cart = cart.copyWith(
+        items: await _cartRepository.addToCart(food, cart, user),
+      );
+      await fetchCartData(user);
+      emit(CartAddedFoodActionState());
+      emit(CartAddedFoodState(food: food));
+    } catch (e) {
       emit(CartErrorActionState(exception: e as Exception));
     }
   }
 
-  void addToCart(FoodModel food) async {
-    if (state is CartItemLoadingState) return;
-    emit(CartItemLoadingState(foodId: food.id));
+  void increaseQuantity(CartItemModel item, UserModel user) async {
+    if (state is CartItemsLoadingState) return;
+    emit(CartItemsLoadingState(foodId: item.food.id));
+
     try {
-      await _cartRepository.addToCart(food);
-      if (!_cart.nullOrNot && isInCart(food).$1) {
-        increaseQuantity(isInCart(food).$2!);
-      } else {
-        lastIndex = _cart.items.last.id;
-        _cart = _cart.copyWith(
-          items: [
-            ..._cart.items,
-            CartItemModel(
-              id: !_cart.items.nullOrNot
-                  ? (_cart.items.last.id + 1)
-                  : lastIndex + 1,
-              cartId: _cart.id,
-              food: food,
-            ),
-          ],
-        );
-      }
-      emit(CartAddedFoodActionState());
-      emit(CartAddedFoodState(food: food));
+      _cart = cart.copyWith(
+        items: await _cartRepository.addToCart(item.food, cart, user),
+      );
+      await fetchCartData(user);
+      emit(CartAddedFoodState(food: item.food));
     } catch (e) {
-      // emit(CartErrorActionState(exception: e as Exception));
+      emit(CartErrorActionState(exception: e as Exception));
     }
   }
 
-  void increaseQuantity(CartItemModel item) {
-    _cart = cart.copyWith(
-      items: _cart.items.map((e) {
-        if (e.id == item.id) {
-          emit(CartIncreasedQuantityState(
-              foodId: e.food.id, newQuantity: e.quantity));
-          return e.copyWith(quantity: item.quantity + 1);
-        } else {
-          return e;
-        }
-      }).toList(),
-    );
-  }
+  void dereaseQuantity(CartItemModel item, UserModel user) async {
+    if (state is CartItemsLoadingState) return;
+    emit(CartItemsLoadingState(foodId: item.food.id));
 
-  void dereaseQuantity(CartItemModel item) {
-    _cart = _cart.copyWith(
-      items: _cart.items.map((e) {
-        if (e.id == item.id && item.quantity > 0) {
-          emit(CartIncreasedQuantityState(
-              foodId: e.food.id, newQuantity: e.quantity));
-          return e.copyWith(quantity: item.quantity - 1);
-        } else {
-          return e;
-        }
-      }).toList(),
-    );
+    try {
+      _cart = cart.copyWith(
+        items: await _cartRepository.removeFromCart(item, user),
+      );
+      await fetchCartData(user);
+      emit(CartAddedFoodState(food: item.food));
+    } catch (e) {
+      emit(CartErrorActionState(exception: e as Exception));
+    }
   }
 
   (bool, CartItemModel?) isInCart(FoodModel food) {
     return (
       _cart.items.any((element) => element.food.id == food.id),
-      _cart.items.where((element) => element.id == food.id).firstOrNull
+      _cart.items.where((element) => element.food.id == food.id).firstOrNull
     );
   }
 

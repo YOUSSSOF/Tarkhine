@@ -31,6 +31,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
     });
   }
 
+  String code = "";
   @override
   void initState() {
     controller = TextEditingController();
@@ -92,7 +93,11 @@ class _VerifyScreenState extends State<VerifyScreen> {
                   appContext: context,
                   length: 5,
                   controller: controller,
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    setState(() {
+                      code = value;
+                    });
+                  },
                   onCompleted: (value) {
                     context.auth.verifyCode(value, widget.phoneNumber);
                   },
@@ -147,7 +152,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                                 duration =
                                     duration = const Duration(minutes: 2);
                               });
-                              context.auth.resendSMS(widget.phoneNumber);
+                              context.auth.sendSMS(widget.phoneNumber);
                             },
                             child: const YxText(
                               'دریافت کد مجدد',
@@ -169,6 +174,8 @@ class _VerifyScreenState extends State<VerifyScreen> {
                         'لطفا کد را کامل وارد کنید.',
                         SnackBarType.error,
                       );
+                    } else {
+                      context.auth.verifyCode(code, widget.phoneNumber);
                     }
                   },
                   child: state is AuthenticationLoadingState

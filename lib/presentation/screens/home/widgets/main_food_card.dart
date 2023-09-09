@@ -40,11 +40,17 @@ class MainFoodCard extends StatelessWidget {
                 children: [
                   Hero(
                     tag: food.id,
-                    child: Image.asset(
+                    child: Image.network(
                       food.thumbnail ?? Assets.images.notFound,
                       height: 109,
                       fit: BoxFit.cover,
                       width: context.width,
+                      errorBuilder: (context, error, stackTrace) => Image.asset(
+                        Assets.images.notFound,
+                        fit: BoxFit.cover,
+                        height: 109,
+                        width: context.width,
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -127,7 +133,7 @@ class MainFoodCard extends StatelessWidget {
                     ).marginH(15),
                   ),
                   const Spacer(),
-                  if (state is CartItemLoadingState &&
+                  if (state is CartItemsLoadingState &&
                           food.id == state.foodId ||
                       state is CartLoadingState ||
                       context.cart.isInCart(food).$1.nullOrNot)
@@ -142,7 +148,8 @@ class MainFoodCard extends StatelessWidget {
                   else
                     YxButton(
                       title: 'افزودن به سبد خرید',
-                      onPressed: () => context.cart.addToCart(food),
+                      onPressed: () =>
+                          context.cart.addToCart(food, context.auth.user!),
                       width: double.infinity,
                       height: 32,
                     ).margin9,

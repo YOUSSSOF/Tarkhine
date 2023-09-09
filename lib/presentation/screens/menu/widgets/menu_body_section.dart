@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
-
 import '../../../../common/common.dart';
 import '../../../../data/models/food_model.dart';
-import '../../../../data/repositories/delivery_repository.dart';
 import '../../../../logic/cubits/delivery_cubit.dart';
 import 'menu_item.dart';
 
@@ -49,7 +47,7 @@ class MenuBodySection extends StatelessWidget {
                             radius: BorderRadius.circular(4),
                             height: 100,
                           ).marginV(12)
-                        : MenuItem(food: foods[index]);
+                        : MenuItem(food: items![index]);
                   }),
             ],
           ).marginH(20).marginV(24),

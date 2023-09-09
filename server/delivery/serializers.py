@@ -55,6 +55,9 @@ class CartItemCreateSerializer(serializers.ModelSerializer):
             return models.CartItem.objects.create(**validated_data, cart_id=self.context['cart_id'])
 
 
+
+
+
 class CartSerializer(serializers.ModelSerializer):
     items = CartItemSerializer(many=True)
 

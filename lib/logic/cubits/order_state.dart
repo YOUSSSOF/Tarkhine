@@ -14,9 +14,8 @@ class OrderLoadingState extends OrderState {}
 class OrdersFetchedState extends OrderState {
   final List<OrderModel>? orders;
   const OrdersFetchedState({
-     this.orders,
+    this.orders,
   });
-
 }
 
 class OrderItemLoadingState extends OrderState {}
@@ -27,4 +26,5 @@ class OrderErrorState extends OrderState {
     required this.exception,
   });
 }
+
 abstract class OrderActionState extends OrderState {}

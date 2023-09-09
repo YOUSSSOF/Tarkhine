@@ -79,7 +79,7 @@ class CartItemModel {
 class CartModel {
   final int id;
   final int userId;
-  final List<CartItemModel> items;
+  List<CartItemModel> items;
   CartModel({
     required this.id,
     required this.userId,

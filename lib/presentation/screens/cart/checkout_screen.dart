@@ -3,9 +3,9 @@ import 'package:iconsax/iconsax.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tarkhine/common/common.dart';
 import 'package:tarkhine/core/core.dart';
+import 'package:tarkhine/logic/cubits/order_cubit.dart';
 import 'package:tarkhine/presentation/screens/cart/widgets/cart_status_section.dart';
 import 'package:tarkhine/presentation/screens/payment%20result/payment_result_screen.dart';
-
 import 'widgets/discount_apply.dart';
 import 'widgets/payment_method.dart';
 
@@ -13,6 +13,7 @@ class CheckoutScreen extends StatelessWidget {
   CheckoutScreen({
     Key? key,
     required this.sendWithDelivery,
+    required this.orderCubit,
   }) : super(key: key);
   final bool sendWithDelivery;
   final TextEditingController discountController = TextEditingController();
@@ -21,6 +22,7 @@ class CheckoutScreen extends StatelessWidget {
   final BehaviorSubject<bool> payWithCash = BehaviorSubject.seeded(true);
   final BehaviorSubject<PaymentMethods> paymentMethod =
       BehaviorSubject.seeded(PaymentMethods.saman);
+  final OrderCubit orderCubit;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -168,11 +170,35 @@ class CheckoutScreen extends StatelessWidget {
                       ),
                       YxButton(
                         title: 'تایید و پرداخت',
-                        onPressed: () => context.to(
-                          const PaymentResultScreen(
-                            wasSuccessful: true,
-                          ),
-                        ),
+                        onPressed: () {
+                          showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return const YxLoader(
+                                size: 80,
+                                strokeWidth: 8,
+                              );
+                            },
+                          );
+                          orderCubit
+                              .postOrder(
+                                  context.auth.user!,
+                                  'تهران: اقدسیه، بزرگراه ارتش، مجتمع شمیران سنتر، طبقه ۱۰',
+                                  sendWithDelivery)
+                              .then((value) {
+                            context.cart
+                                .fetchCartData(context.auth.user!)
+                                .then((value) {
+                              context.back();
+                              context.to(
+                                const PaymentResultScreen(
+                                  wasSuccessful: true,
+                                ),
+                              );
+                            });
+                          });
+                        },
                         width: context.width,
                         paddingV: 8,
                       ).marginOnly(top: 15),

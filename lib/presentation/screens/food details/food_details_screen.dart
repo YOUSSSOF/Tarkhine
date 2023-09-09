@@ -20,6 +20,7 @@ class FoodDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(context.cart.isInCart(food).$1);
     return Scaffold(
       appBar: const YxAppbar(
         title: 'جزئیات محصول',
@@ -37,9 +38,14 @@ class FoodDetailsScreen extends StatelessWidget {
                     onPageChanged: (value) => index.add(value),
                     itemBuilder: (context, index) => Hero(
                       tag: food.id,
-                      child: Image.asset(
-                        food.covers?[index] ?? Assets.images.notFound,
+                      child: Image.network(
+                        'http://10.0.2.2:8000${food.covers![index]}',
                         fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            Image.asset(
+                          Assets.images.notFound,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -173,7 +179,7 @@ class FoodDetailsScreen extends StatelessWidget {
                 )
                 .marginOnly(top: 17, bottom: 24),
             BlocBuilder<CartCubit, CartState>(builder: (context, state) {
-              if (state is CartItemLoadingState && food.id == state.foodId ||
+              if (state is CartItemsLoadingState && food.id == state.foodId ||
                   state is CartLoadingState ||
                   context.cart.isInCart(food).$1.nullOrNot) {
                 return const YxLoader(
@@ -187,7 +193,8 @@ class FoodDetailsScreen extends StatelessWidget {
               } else {
                 return YxButton(
                   title: 'افزودن به سبد خرید',
-                  onPressed: () => context.cart.addToCart(food),
+                  onPressed: () =>
+                      context.cart.addToCart(food, context.auth.user!),
                   width: double.infinity,
                   height: 35,
                   fontSize: 12,

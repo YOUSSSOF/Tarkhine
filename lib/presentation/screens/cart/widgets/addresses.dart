@@ -32,7 +32,7 @@ class Addresses extends StatelessWidget {
                     constraints: const BoxConstraints(),
                     onPressed: () => showSnackbar(
                       context,
-                      'بخش آدرس ها توسعه نیافته.',
+                      'این بخش توسعه نیافته است.',
                       SnackBarType.warning,
                     ),
                     icon: const Icon(

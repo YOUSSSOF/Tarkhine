@@ -6,6 +6,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:tarkhine/common/common.dart';
 import 'package:tarkhine/core/core.dart';
 import 'package:tarkhine/data/models/food_model.dart';
+import 'package:tarkhine/data/repositories/config.dart';
 import 'package:tarkhine/logic/cubits/cart_cubit.dart';
 import 'package:tarkhine/logic/cubits/delivery_cubit.dart';
 
@@ -39,7 +40,7 @@ class FoodDetailsScreen extends StatelessWidget {
                     itemBuilder: (context, index) => Hero(
                       tag: food.id,
                       child: Image.network(
-                        'http://10.0.2.2:8000${food.covers![index]}',
+                        Repository.serverUrl + food.covers![index],
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) =>
                             Image.asset(

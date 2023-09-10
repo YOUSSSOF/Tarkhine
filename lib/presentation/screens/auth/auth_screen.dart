@@ -11,6 +11,7 @@ import '../screens.dart';
 class AuthScreen extends StatelessWidget {
   AuthScreen({super.key});
   final BehaviorSubject<bool> accepted = BehaviorSubject()..add(false);
+  final BehaviorSubject<String> code = BehaviorSubject();
   final TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,7 @@ class AuthScreen extends StatelessWidget {
           case AuthenticationSentNavigateToVerifyActionState:
             context.to(VerifyScreen(
               phoneNumber: controller.text,
+              code: code.value,
             ));
           case AuthenticationErrorState:
             showSnackbar(
@@ -35,7 +37,7 @@ class AuthScreen extends StatelessWidget {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
-            body: StreamBuilder<Object>(
+            body: StreamBuilder<bool>(
                 stream: accepted.stream,
                 builder: (context, snapshot) {
                   return Column(
@@ -75,7 +77,7 @@ class AuthScreen extends StatelessWidget {
                                   ? AppColor.primary
                                   : AppColor.loading,
                           title: 'ارسال کد',
-                          onPressed: () {
+                          onPressed: () async {
                             if (controller.text.isEmpty) {
                               showSnackbar(
                                 context,
@@ -94,7 +96,9 @@ class AuthScreen extends StatelessWidget {
                             }
                             state is AuthenticationLoadingState
                                 ? null
-                                : context.auth.sendSMS(controller.text);
+                                : context.auth
+                                    .sendSMS(controller.text)
+                                    .then((value) => code.add(value!));
                           },
                           child: state is AuthenticationLoadingState
                               ? const CircularProgressIndicator(

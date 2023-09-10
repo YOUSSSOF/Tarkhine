@@ -5,6 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:tarkhine/common/common.dart';
 import 'package:tarkhine/core/core.dart';
+import 'package:tarkhine/data/repositories/config.dart';
 import 'package:tarkhine/presentation/screens/food%20details/food_details_screen.dart';
 
 import '../../../../data/models/order_model.dart';
@@ -146,7 +147,8 @@ class OrderCard extends StatelessWidget {
                             child: Stack(
                               children: [
                                 Image.network(
-                                  'http://10.0.2.2${current.food.thumbnail}',
+                                  Repository.serverUrl +
+                                      current.food.thumbnail!,
                                   fit: BoxFit.cover,
                                   errorBuilder: (context, error, stackTrace) =>
                                       Image.asset(

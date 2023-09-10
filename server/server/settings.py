@@ -13,7 +13,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from datetime import timedelta
 import os
 from pathlib import Path
+import environ
 
+
+env = environ.Env()
+environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-blqmq-scyv%ibk@@h@=3%qoi2ybf#vnwi3=6i=))hmsu5z-%w&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -42,6 +46,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework',
     'rest_framework_simplejwt',
+    'corsheaders',
     'core',
     'delivery',
     'authentication',
@@ -50,6 +55,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -83,8 +89,12 @@ WSGI_APPLICATION = 'server.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'recursing_chaplygin',
+        'USER': 'root',
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': 'finn.iran.liara.ir',
+        'PORT': '31383',
     }
 }
 
@@ -147,8 +157,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'authentication.User'
 
-OTP_SERVICE_USERNAME = '9135655644'
-OTP_SERVICE_PASSWORD = 'G5BMT'
+OTP_SERVICE_USERNAME = env('OTP_SERVICE_USERNAME')
+OTP_SERVICE_PASSWORD = env('OTP_SERVICE_PASSWORD')
 
 
 SIMPLE_JWT = {
@@ -157,4 +167,10 @@ SIMPLE_JWT = {
     "TOKEN_OBTAIN_SERIALIZER": "authentication.serializers.TokenObtainPairSerializer",
 }
 
-ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1']
+ALLOWED_HOSTS = ['10.0.2.2', '127.0.0.1', 'tarkhineserver.iran.liara.run',
+                 'https://tarkhineserver.iran.liara.run']
+
+CORS_ALLOWED_ORIGINS = [
+    'https://tarkhineserver.iran.liara.run',
+    'http://10.0.2.2:8000', 'http://127.0.0.1:8000',
+]

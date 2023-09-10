@@ -32,17 +32,19 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
     }
   }
 
-  void sendSMS(String mobileNumber) async {
-    if (state is AuthenticationLoadingState) return;
+  Future<String?> sendSMS(String mobileNumber) async {
+    if (state is AuthenticationLoadingState) return null;
     try {
       emit(AuthenticationLoadingState());
-      await _authenticationRepository.sendSMS(mobileNumber);
+      String code = await _authenticationRepository.sendSMS(mobileNumber);
       emit(AuthenticationSentNavigateToVerifyActionState(mobileNumber));
       emit(AuthenticationInitial());
+      return code;
     } catch (e) {
       print(e);
-      emit(AuthenticationErrorState(e as Exception));
+      emit(AuthenticationErrorState(Exception('j')));
       emit(AuthenticationInitial());
+      return null;
     }
   }
 

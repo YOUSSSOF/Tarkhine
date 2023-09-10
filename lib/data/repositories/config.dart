@@ -1,7 +1,8 @@
 import 'package:http/http.dart' as http;
 
 abstract class Repository {
-  final String serverUrl = 'http://10.0.2.2:8000';
+  // static const  String serverUrl = 'http://10.0.2.2:8000';
+  static const  String serverUrl = 'https://tarkhineserver.iran.liara.run';
   String get apiUrl => '$serverUrl/api';
   final http.Client _client = http.Client();
   http.Client get client => _client;
@@ -18,5 +19,4 @@ abstract class Repository {
   Uri myCartDeleteItemEndpoint(int itemId) =>
       Uri.parse('$apiUrl/auth/me/cart/items/$itemId/');
   Uri get myOrdersEndpoint => Uri.parse('$apiUrl/auth/me/orders/');
-
 }

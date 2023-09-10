@@ -13,9 +13,11 @@ class VerifyScreen extends StatefulWidget {
   const VerifyScreen({
     Key? key,
     required this.phoneNumber,
+    required this.code,
   }) : super(key: key);
 
   final String phoneNumber;
+  final String code;
 
   @override
   State<VerifyScreen> createState() => _VerifyScreenState();
@@ -85,6 +87,15 @@ class _VerifyScreenState extends State<VerifyScreen> {
                   'کد تایید پنج رقمی به شماره  ${widget.phoneNumber} ارسال شد.',
                   fontSize: 14,
                   fontWeight: FontWeight.w300,
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                YxText(
+                  'کد تایید در صورت ارسال نشدن پیامک: ${widget.code}',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w300,
+                  color: AppColor.primary,
                 ),
                 const SizedBox(
                   height: 24,

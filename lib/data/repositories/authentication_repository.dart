@@ -5,12 +5,12 @@ import 'package:http/http.dart';
 import '../models/user_model.dart';
 
 class AuthenticationRepository extends Repository {
-  Future<void> sendSMS(String mobileNumber) async {
+  Future<String> sendSMS(String mobileNumber) async {
     try {
       Response response = await client
           .post(authCodeRequestEndpoint, body: {'phone_number': mobileNumber});
       if (response.statusCode == 200) {
-        print(response.body);
+        return json.decode(response.body)['code'];
       } else {
         throw Exception('اختلال در سرور، لطفا دوباره تلاش کنید.');
       }

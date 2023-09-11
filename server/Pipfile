@@ -17,6 +17,7 @@ drf-yasg = "*"
 django-cors-headers = "*"
 mysqlclient = "*"
 django-environ = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

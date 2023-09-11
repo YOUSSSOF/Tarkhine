@@ -13,11 +13,12 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from datetime import timedelta
 import os
 from pathlib import Path
-import environ
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
-env = environ.Env()
-environ.Env.read_env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -92,7 +93,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'recursing_chaplygin',
         'USER': 'root',
-        'PASSWORD': env('DB_PASSWORD'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': 'finn.iran.liara.ir',
         'PORT': '31383',
     }
@@ -157,8 +158,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'authentication.User'
 
-OTP_SERVICE_USERNAME = env('OTP_SERVICE_USERNAME')
-OTP_SERVICE_PASSWORD = env('OTP_SERVICE_PASSWORD')
+OTP_SERVICE_USERNAME = os.getenv('OTP_SERVICE_USERNAME')
+OTP_SERVICE_PASSWORD = os.getenv('OTP_SERVICE_PASSWORD')
 
 
 SIMPLE_JWT = {

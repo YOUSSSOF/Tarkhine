@@ -51,8 +51,11 @@ class AuthenticationRepository extends Repository {
             UserModel.fromJson(utf8.decode(userResponse.bodyBytes));
         user.token = token;
         return Future.value(user);
-      } else {
+      } else if(userResponse.statusCode == 500) {
+        throw Exception('invalid jwt');
+      }else{
         throw Exception();
+
       }
     } catch (e) {
       rethrow;

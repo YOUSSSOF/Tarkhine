@@ -18,7 +18,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -98,6 +97,7 @@ DATABASES = {
         'PORT': '31383',
     }
 }
+print(os.getenv('DB_PASSWORD'))
 
 
 # Password validation
@@ -160,7 +160,6 @@ AUTH_USER_MODEL = 'authentication.User'
 
 OTP_SERVICE_USERNAME = os.getenv('OTP_SERVICE_USERNAME')
 OTP_SERVICE_PASSWORD = os.getenv('OTP_SERVICE_PASSWORD')
-
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=30),

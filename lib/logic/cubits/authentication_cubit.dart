@@ -41,7 +41,6 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       emit(AuthenticationInitial());
       return code;
     } catch (e) {
-      print(e);
       emit(AuthenticationErrorState(Exception('j')));
       emit(AuthenticationInitial());
       return null;
@@ -73,8 +72,10 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
       _user = await _authenticationRepository.authenticateUser(token);
       emit(AuthenticationSuccedNavigateToAuthActionState());
       emit(AuthenticationSucceedVerificationState(_user!));
-    } catch (e) {
-      if (token != null) {
+    } on Exception catch (e) {
+      print(e.toString());
+
+      if (token != null && e.toString() != 'invalid jwt') {
         emit(AuthenticationInternetErrorState());
         emit(AuthenticationInternetErrorActionState());
         return;

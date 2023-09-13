@@ -1,6 +1,7 @@
-![Final](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/0f475e9c-c3d4-45d6-8fec-f31aa56c8500)
+![Frame 3](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/f6cbc4cd-295e-4d51-ac6f-eb04f069f18c)
 
-ترخینه، یک اپلیکیشن سفارش غذایِ تماما ایرانی، دوای گرسنگی شما در هر لحظه😁! توسعه داده شده توسط فریم ورک های فلاتر و جنگو. سمت کلاینت با فریم ورک فلاتر و معماری Bloc، همچنین تمام restful apiها هم با پایتون و توسط فریم ورک جنگو پیاده سازی شدن 🚀
+Tarkhine, a complete perisan delivery food application, best friend for your hungery moments😁! built with the help of flutter and django. client side developed with flutter framework and Bloc architecture + django and django rest framework for restful apis 🚀
+
 
 # 🧛 Features
 
@@ -27,8 +28,8 @@
 📌 and ... .
 
 # 📷 Shots
+![Group 37](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/ab4100c0-abe7-488c-9616-41ce7dff5a88)
 
-![Group 37](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/5cb7af71-436e-4434-808a-f42c84a328a9)
 
 # 🎯 To-Dos
 ✔️ Django project uses MySql DB so be sure setting up required infos in settings.py before running.
@@ -39,8 +40,8 @@
 
 
 # 👨‍💻 Endpoints Document
+![Screenshot 2023-09-13 at 19-20-17 Tarkhine API Documentation 1](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/c40b42b4-290e-417f-b606-2717a05dc0bd)
 
-![Screenshot 2023-09-13 at 19-20-17 Tarkhine API Documentation 1](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/3bbbba2c-efff-459b-82b0-23c1a313f0bd)
 
 # ⁉ How did this happend?
 
@@ -49,4 +50,4 @@
 Design source link : <a href="https://www.figma.com/community/file/1231631272542945983/Tarkhineh-%7C-Food-ordering-Website-%26-Application">Tarkhineh | Food ordering Website & Application<a/>
 
 # 🎤 At the end
-
+This application, like all other applications, is definitely not perfect, it has flaws and defects, but as far as I could, I tried to be efficient and accurate in all parts, to create the best experience for dear users. Thank you for your time.

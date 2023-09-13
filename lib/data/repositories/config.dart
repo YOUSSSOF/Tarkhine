@@ -1,8 +1,7 @@
 import 'package:http/http.dart' as http;
 
 abstract class Repository {
-  // static const  String serverUrl = 'http://10.0.2.2:8000';
-  static const  String serverUrl = 'https://tarkhineserver.iran.liara.run';
+  static const  String serverUrl = 'your sever address';
   String get apiUrl => '$serverUrl/api';
   final http.Client _client = http.Client();
   http.Client get client => _client;

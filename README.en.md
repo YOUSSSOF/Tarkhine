@@ -43,9 +43,6 @@ Tarkhine, a complete perisan delivery food application, best friend for your hun
 ![Screenshot 2023-09-13 at 19-20-17 Tarkhine API Documentation 1](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/c40b42b4-290e-417f-b606-2717a05dc0bd)
 
 
-# ⁉ How did this happend?
-
-
 # 🖌️ Design Rigths
 Design source link : <a href="https://www.figma.com/community/file/1231631272542945983/Tarkhineh-%7C-Food-ordering-Website-%26-Application">Tarkhineh | Food ordering Website & Application<a/>
 

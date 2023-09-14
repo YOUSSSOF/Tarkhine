@@ -1,5 +1,8 @@
 ![Frame 3](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/f6cbc4cd-295e-4d51-ac6f-eb04f069f18c)
 
+[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/YOUSSSOF/Tarkhine/blob/master/README.md)
+[![fa](https://img.shields.io/badge/lang-fa-yellow.svg)](https://github.com/YOUSSSOF/Tarkhine/blob/master/README.fa.md)
+
 Tarkhine, a complete perisan delivery food application, best friend for your hungery moments😁! built with the help of flutter and django. client side developed with flutter framework and Bloc architecture + django and django rest framework for restful apis 🚀
 
 

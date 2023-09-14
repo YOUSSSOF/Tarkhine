@@ -1,5 +1,8 @@
 ![Final](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/0f475e9c-c3d4-45d6-8fec-f31aa56c8500)
 
+[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/YOUSSSOF/Tarkhine/blob/master/README.md)
+[![fa](https://img.shields.io/badge/lang-fa-yellow.svg)](https://github.com/YOUSSSOF/Tarkhine/blob/master/README.fa.md)
+
 ترخینه، یک اپلیکیشن سفارش غذایِ تماما ایرانی، دوای گرسنگی شما در هر لحظه😁! توسعه داده شده توسط فریم ورک های فلاتر و جنگو. سمت کلاینت با فریم ورک فلاتر و معماری Bloc، همچنین تمام restful apiها هم با پایتون و توسط فریم ورک جنگو پیاده سازی شدن 🚀
 
 

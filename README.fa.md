@@ -1,4 +1,5 @@
-![Final](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/0f475e9c-c3d4-45d6-8fec-f31aa56c8500)
+![Final-min](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/7276474f-3fee-4daf-b1b9-8391ca380697)
+
 
 [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/YOUSSSOF/Tarkhine/blob/master/README.md)
 [![fa](https://img.shields.io/badge/lang-fa-yellow.svg)](https://github.com/YOUSSSOF/Tarkhine/blob/master/README.fa.md)
@@ -32,8 +33,7 @@
 
 
 # 📷 شات ها
-![Group 37](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/5cb7af71-436e-4434-808a-f42c84a328a9)
-
+![Group 37 (1)-min](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/e696cb9f-315c-479b-b22f-ce275ad551c4)
 
 
 # 🎯 برای استفاده از سورس چه کارهایی باید انجام بدم؟
@@ -45,8 +45,7 @@
 
 
 # 👨‍💻 مستند enpointهای بکند
-![Screenshot 2023-09-13 at 19-20-17 Tarkhine API Documentation 1](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/3bbbba2c-efff-459b-82b0-23c1a313f0bd)
-
+![Screenshot 2023-09-13 at 19-20-17 Tarkhine API Documentation 1-min](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/07ad1179-648d-4df0-aa56-796e64e8dea7)
 
 
 # ⁉️ چیشد که شد؟

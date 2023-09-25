@@ -1,4 +1,5 @@
-![Frame 3](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/f6cbc4cd-295e-4d51-ac6f-eb04f069f18c)
+![Frame 3-min](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/513efcc3-618b-4be9-bfc9-900d749f4277)
+
 
 [![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/YOUSSSOF/Tarkhine/blob/master/README.md)
 [![fa](https://img.shields.io/badge/lang-fa-yellow.svg)](https://github.com/YOUSSSOF/Tarkhine/blob/master/README.fa.md)
@@ -31,7 +32,7 @@ Tarkhine, a complete perisan delivery food application, best friend for your hun
 📌 and ... .
 
 # 📷 Shots
-![Group 37](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/ab4100c0-abe7-488c-9616-41ce7dff5a88)
+![Group 37 (1)-min](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/b6c4a021-0b1d-4109-a57b-18946d6568a5)
 
 
 # 🎯 To-Dos
@@ -43,7 +44,7 @@ Tarkhine, a complete perisan delivery food application, best friend for your hun
 
 
 # 👨‍💻 Endpoints Document
-![Screenshot 2023-09-13 at 19-20-17 Tarkhine API Documentation 1](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/c40b42b4-290e-417f-b606-2717a05dc0bd)
+![Screenshot 2023-09-13 at 19-20-17 Tarkhine API Documentation 1-min](https://github.com/YOUSSSOF/Tarkhine/assets/93007857/c7b8a794-6fca-4185-87a1-447caf558185)
 
 
 # 🖌️ Design Rights

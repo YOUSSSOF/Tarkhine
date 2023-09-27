@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 
 abstract class Repository {
-  static const  String serverUrl = 'your sever address';
+  static const  String serverUrl = 'your server url';
   String get apiUrl => '$serverUrl/api';
   final http.Client _client = http.Client();
   http.Client get client => _client;
